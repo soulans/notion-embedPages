@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>简单表格</title>
+    <style>
+        *{
+            margin: 0; padding: 0;
+        }
+        #sheet{
+            margin-left: 10px;
+        }
+        table{
+            margin-top: 15px;
+            border-collapse: collapse;
+            border: 1px solid #aaa;
+
+            /*width: 100%;*/
+        }
+        table tr:nth-child(odd) {
+            background-color: #F5F5F5;
+        }
+        table tr:nth-child(even) {
+            background-color: #fff;
+        }
+        table th{
+            vertical-align: baseline;
+            padding: 10px 10px 10px 10px;
+            background-color: #3F3F3F;
+            border: 1px solid #3F3F3F;
+            text-align: left;
+            color: #fff;
+        }
+        td{
+            vertical-align: text-top;
+            padding: 9px 9px 9px 9px;
+            border: 1px solid #aaa;
+            min-width: 70px;
+        }
+        #title {
+            font-size: 24px !important;
+            text-align: left !important;
+            /*margin: 1.5em -10px !important;*/
+            padding-left: 10px;
+            border-left: 5px solid #ff5b75 !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="sheet">
+        <div id="title">表格标题</div>
+    </div>
+</body>
+<script>
+    function GET(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return decodeURI(r[2]); return null;
+    }
+
+    window.onload = function(){
+        document.getElementById("title").innerText = GET("title");
+        var rows = GET("data").split("||");
+        var table = document.createElement("table");
+        if(GET("head")!=null){
+            var heads = GET("head").split("|");
+            var tr = document.createElement("tr");
+            for (var i in heads){
+                var th = document.createElement("th");
+                th.innerText = heads[i];
+                tr.appendChild(th);
+            }
+            table.appendChild(tr);
+        }
+        for(var i in rows) {
+            var row = rows[i].split("|");
+            var tr = document.createElement("tr");
+            for(var j in row){
+                var td = document.createElement("td");
+                td.innerText = row[j];
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+        }
+        document.getElementById("sheet").appendChild(table);
+    }
+</script>
+</html>
