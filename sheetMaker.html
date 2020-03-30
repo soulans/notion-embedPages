@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>嵌入式表格转换</title>
+    <style>
+        *{margin: 0; padding: 0}
+        #board{
+            width: 35%;
+            min-width: 300px;
+            margin: 0 auto;
+            /*background-color: burlywood;*/
+        }
+        input,textarea{
+            width:100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        .head{
+            width:100%;
+            height: 20px;
+            font-size: 16px;
+            line-height: 20px;
+            text-align: center;
+            background: black;
+            color: white;
+        }
+        .button{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="board">
+        <div class="head">把表格粘贴进去后点击转换即可</div>
+        <input type="text" id="title" placeholder="表格标题">
+        <textarea name="data" id="data" cols="30" rows="10" placeholder="把表格粘贴在这里"></textarea>
+        <div class="button head" onclick="trans()">点击转换</div>
+        <input id="result" type="text" disabled>
+    </div>
+</body>
+<script>
+    function cl(result) {
+        const copyinput = document.createElement("textarea");
+            copyinput.value = result, document.body.appendChild(copyinput), copyinput.select();
+            try {
+                document.execCommand("copy")
+            } catch (err) {
+            }
+            document.body.removeChild(copyinput);
+    }
+    function trans() {
+        var context = document.getElementById("data").value.trim();
+        var title = document.getElementById("title").value.trim();
+        var rows = context.split("\n");
+        var result = window.location.href.replace(/sheetMaker\.html.*/,"")+"sheet?";
+        // var result = "https://www.kissliu.com/notion-embedPages/"+"sheet?";
+        // https://www.kissliu.com/notion-embedPages/sheet?title=&head=&data=
+        var l = rows.length;
+        if (title != "") result = result + "title="+title+"&";
+        var head = "head="+rows[0].replace(/"|"/g,"\|").replace(/\t/g,"|");
+            result = result + head;
+            result = result + "&data=";
+        for (var i=1; i < l; ++i){
+            if(rows[i]==null) break;
+            if (i>1){
+                result = result + "||";
+            }
+            result = result+rows[i].replace(/"|"/g,"\|").replace(/\t/g,"|");
+        }
+        document.getElementById("result").value = result;
+        cl(result);
+        console.log(result);
+    }
+</script>
+</html>
