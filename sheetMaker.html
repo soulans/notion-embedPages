@@ -54,7 +54,7 @@
         var context = document.getElementById("data").value.trim();
         var title = document.getElementById("title").value.trim();
         var rows = context.split("\n");
-        var result = window.location.href.replace(/sheetMaker\.html.*/,"")+"sheet?";
+        var result = window.location.href.replace(/sheetMaker.*/,"")+"sheet?";
         // var result = "https://www.kissliu.com/notion-embedPages/"+"sheet?";
         // https://www.kissliu.com/notion-embedPages/sheet?title=&head=&data=
         var l = rows.length;
