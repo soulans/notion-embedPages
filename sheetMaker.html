@@ -69,9 +69,10 @@
             }
             result = result+rows[i].replace(/"|"/g,"\|").replace(/\t/g,"|");
         }
+        result = encodeURI(result);
         document.getElementById("result").value = result;
         cl(result);
-        console.log(result);
+//         console.log(result);
     }
 </script>
 </html>
